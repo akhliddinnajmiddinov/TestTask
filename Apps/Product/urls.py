@@ -1,13 +1,14 @@
 from django.urls import path
 from .views import (
-    ProductMixinView, ProductRetrieveAPIView, 
+    ProductListRetrieveView, ProductCreateAPIView, ProductRetrieveAPIView, 
     ProductUpdateView, ProductDestroyView
     )
 
 
 app_name = 'product'
 urlpatterns = [
-    path('', ProductMixinView.as_view(), name='product'), # for creating and listing categories
+    path('', ProductListRetrieveView.as_view(), name='list'),
+    path('create/', ProductCreateAPIView.as_view(), name='create'),
     path('<int:pk>/', ProductRetrieveAPIView.as_view(), name='retrieve'),
     path('<int:pk>/update',ProductUpdateView.as_view(), name='update'),
     path('<int:pk>/delete', ProductDestroyView.as_view(), name='delete'),

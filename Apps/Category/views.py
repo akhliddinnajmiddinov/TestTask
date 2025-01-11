@@ -3,22 +3,23 @@ from rest_framework import generics, mixins, permissions, authentication
 from .models import Category
 from .serializers import CategorySerializer
 
-class CategoryMixinView(
-    mixins.CreateModelMixin,
+class CategoryListRetrieveView(
     mixins.ListModelMixin,
     generics.GenericAPIView
 ):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    lookup_field = 'pk'
-
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
-    
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-    
+
+
+class CategoryCreateAPIView(generics.CreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAdminUser]
+
+
 
 class CategoryRetrieveAPIView(generics.RetrieveAPIView):
     queryset = Category.objects.all()
@@ -29,10 +30,12 @@ class CategoryRetrieveAPIView(generics.RetrieveAPIView):
 class CategoryUpdateView(generics.UpdateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAdminUser]
     lookup_field = 'pk'
 
 
 class CategoryDestroyView(generics.DestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAdminUser]
     lookup_field = 'pk'
