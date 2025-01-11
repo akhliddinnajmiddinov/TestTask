@@ -33,6 +33,9 @@ class ProductUpdateView(generics.UpdateAPIView):
     permission_classes = [permissions.IsAdminUser]
     lookup_field = 'pk'
 
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, partial=True, **kwargs)
+
 
 class ProductDestroyView(generics.DestroyAPIView):
     queryset = Product.objects.all()

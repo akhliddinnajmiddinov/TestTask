@@ -36,7 +36,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def save(self, *args, **kwargs):
+        if self.pk is None or self._state.adding:  # Check if the user is being created
+            if self.password:
+                self.password = make_password(self.password)
         super().save(*args, **kwargs)
+
         if self._password is not None:
             password_validation.password_changed(self._password, self)
+            self.password = make_password(self._password)
             self._password = None
