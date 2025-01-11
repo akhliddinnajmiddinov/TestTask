@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
-    'user',
+    'User',
     'Category',
     'Product',
 ]
@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # USER
-AUTH_USER_MODEL = 'user.CustomUser'
+AUTH_USER_MODEL = 'User.CustomUser'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'
     ]
