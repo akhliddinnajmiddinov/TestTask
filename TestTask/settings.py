@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
     'user',
     'Category',
-    'Product'
+    'Product',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +107,17 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # USER
 AUTH_USER_MODEL = 'user.CustomUser'
-AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend'
+    ]
+
+
+# REST
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 
 # Internationalization
