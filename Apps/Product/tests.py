@@ -85,9 +85,7 @@ class ProductJWTAPITests(APITestCase):
         """
         self.authenticate(email="user@example.com", password="userpassword")
         # Fetch products belonging to the first category
-        print(self.list_category_products_url.format(category_id=self.category.pk))
         response = self.client.get(self.list_category_products_url.format(category_id=self.category.pk))
-        print(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)
         self.assertTrue(all(product["category"]["id"] == self.category.pk for product in response.data))
