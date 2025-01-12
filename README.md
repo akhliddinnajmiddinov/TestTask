@@ -23,3 +23,8 @@ This project is a Django-based application that includes a custom user model, a 
 
 - **API Documentation**
   - Swagger/OpenAPI integration for easy exploration of API endpoints.
+
+
+Admin account if you need:
+Login: ahliddin01@gmail.com
+Password: 123
