@@ -7,6 +7,7 @@ from django.utils import timezone
 from .user_manager import UserManager
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import password_validation
+from django.core.validators import RegexValidator
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
@@ -14,6 +15,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
     
+    phone_regex = RegexValidator(regex=r'^\+\d{7,15}$', message="Phone number must be entered in the format: '+999999999'. [7, 15] digits allowed.")
+    phone_number = models.CharField(validators=[phone_regex], max_length=16, blank=True)
+
+
     is_staff = models.BooleanField(
         _("staff status"),
         default=False,
@@ -34,14 +39,3 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
-    def save(self, *args, **kwargs):
-        if self.pk is None or self._state.adding:  # Check if the user is being created
-            if self.password:
-                self.password = make_password(self.password)
-        super().save(*args, **kwargs)
-
-        if self._password is not None:
-            password_validation.password_changed(self._password, self)
-            self.password = make_password(self._password)
-            self._password = None

@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from .models import Category
-from user.models import CustomUser 
+from User.models import CustomUser 
 from rest_framework_simplejwt.tokens import RefreshToken
 
 class TestCategoryAPITests(APITestCase):
@@ -23,7 +23,7 @@ class TestCategoryAPITests(APITestCase):
         return str(refresh.access_token)
 
     def test_list_categories(self):
-        url = reverse('category:list')  # Adjust the name based on your URL configuration
+        url = reverse('category:list')
         response = self.client.get(url, HTTP_AUTHORIZATION=f'Bearer {self.token}')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)  # Assuming one category is created

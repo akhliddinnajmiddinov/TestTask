@@ -108,10 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # USER
 AUTH_USER_MODEL = 'User.CustomUser'
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend'
-    ]
-
 
 # REST
 REST_FRAMEWORK = {
