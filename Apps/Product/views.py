@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import generics, mixins, permissions, authentication
 from .models import Product
+from Category.models import Category
 from .serializers import ProductSerializer
 
 class ProductListRetrieveView(
@@ -11,6 +12,11 @@ class ProductListRetrieveView(
     serializer_class = ProductSerializer
 
     def get(self, request, *args, **kwargs):
+        # listing all products of category if category_id is given
+        category_id = kwargs.get('category_id')
+        if category_id is not None:
+            category = get_object_or_404(Category, pk=category_id)
+            self.queryset = self.queryset.filter(category=category)
         return self.list(request, *args, **kwargs)
 
 

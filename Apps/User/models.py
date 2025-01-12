@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
-from .user_manager import UserManager
 from django.contrib.auth.hashers import make_password
+from .user_manager import UserManager
 from django.contrib.auth import password_validation
 from django.core.validators import RegexValidator
 
@@ -35,7 +35,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(_("date joined"), default=timezone.now)
 
     objects = UserManager()
-
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
