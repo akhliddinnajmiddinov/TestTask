@@ -100,6 +100,7 @@ class CategoryJWTAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.category1.refresh_from_db()
         self.assertEqual(self.category1.name, data["name"])
+        self.assertEqual(self.category1.description, data["description"])
 
     def test_update_category_non_admin(self):
         """

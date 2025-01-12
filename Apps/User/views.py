@@ -21,6 +21,6 @@ class UserCreateAPIView(generics.CreateAPIView):
     )
     def post(self, request, *args, **kwargs):
         """
-        Create a new user, admin-only access. A password validation will be performed before saving.
+        Create a new user, admin-only access.
         """
         return super().post(request, *args, **kwargs)

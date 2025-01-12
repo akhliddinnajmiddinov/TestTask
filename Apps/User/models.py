@@ -11,7 +11,7 @@ from django.core.validators import RegexValidator
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('email address'), unique=True) # changes email to unique and blank to false
+    email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
     
@@ -38,3 +38,10 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+
+    def save(self, *args, **kwargs):
+        # hash the password if it's not already hashed
+        if self.pk and not self.password.startswith('pbkdf2_'):
+            self.set_password(self.password)
+        super().save(*args, **kwargs)

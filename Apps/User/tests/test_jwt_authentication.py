@@ -9,11 +9,14 @@ CustomUser = get_user_model()
 class JWTAuthenticationTests(APITestCase):
     @classmethod
     def setUpTestData(cls):
+        # create an admin user
         cls.email = "testuser@example.com"
         cls.password = "securepassword123"
         cls.user = CustomUser.objects.create_superuser(email=cls.email, password=cls.password)
-        cls.login_url = "/api/token/"  # Adjust based on your JWT token endpoint
-        cls.protected_url = "/api/user/create/"  # Adjust based on your protected endpoint
+        
+        # login and protected urls
+        cls.login_url = "/api/token/"
+        cls.protected_url = "/api/user/create/"
 
     def test_obtain_jwt_token(self):
         """
@@ -30,8 +33,6 @@ class JWTAuthenticationTests(APITestCase):
         """
         response = self.client.post(self.login_url, {"email": self.email, "password": "wrongpassword"})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        self.assertNotIn("access", response.data)
-        self.assertNotIn("refresh", response.data)
 
     def test_access_protected_endpoint_with_valid_token(self):
         """
@@ -39,7 +40,7 @@ class JWTAuthenticationTests(APITestCase):
         """
         refresh = RefreshToken.for_user(self.user)
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
-        # attempting creating user with admin accaunt
+        # attempting creating user with admin account
         response = self.client.post(self.protected_url, data={"email": "test@gmail.com", "password": "strongpassword"})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 

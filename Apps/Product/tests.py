@@ -53,6 +53,8 @@ class ProductJWTAPITests(APITestCase):
         """
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 2)
+
 
     def test_list_products_authenticated(self):
         """
@@ -69,6 +71,7 @@ class ProductJWTAPITests(APITestCase):
         """
         response = self.client.get(self.detail_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["name"], self.product1.name)
 
     def test_retrieve_product_authenticated(self):
         """
@@ -96,7 +99,7 @@ class ProductJWTAPITests(APITestCase):
         """
         self.authenticate(email="user@example.com", password="userpassword")
         # Use a non-existent category ID
-        response = self.client.get(self.list_category_products_url.format(category_id=99999))
+        response = self.client.get(self.list_category_products_url.format(category_id=999))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
